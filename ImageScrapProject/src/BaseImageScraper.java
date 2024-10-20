@@ -16,16 +16,17 @@ public abstract class BaseImageScraper implements ImageScraper {
     protected WebDriver driver; // Selenium WebDriver instance
     protected String downloadPath; // Download path
     protected int imageCount; // Total images to download
-    protected int downloadedImages = 0; // Successfully downloaded images
-    protected int errorCounter = 0; // Error counter
-    protected int requestCounter = 0; // Request counter
+    protected Counter counter;
     protected int waitTime; // Wait time for page loading
+    protected static final String IMAGE_FILENAME_PREFIX = "image";
+    protected static final String IMAGE_EXTENSION = ".jpg";
 
     // Constructor with parameters
-    public BaseImageScraper(String downloadPath, int imageCount, int waitTime, BrowserType browserType) {
+    public BaseImageScraper(String downloadPath, int imageCount, int waitTime,Counter counter, BrowserType browserType) {
         this.downloadPath = downloadPath;
         this.imageCount = imageCount;
         this.waitTime = waitTime;
+        this.counter=counter;
 
         // Set up the browser
         if (browserType == BrowserType.CHROME) {
@@ -37,6 +38,19 @@ public abstract class BaseImageScraper implements ImageScraper {
             options.addArguments("-start-maximized"); // Open browser in fullscreen
             this.driver = new FirefoxDriver(options);
         }
+    }
+    public BaseImageScraper(String downloadPath, int imageCount, int waitTime,Counter counter, WebDriver driver) {
+        this.downloadPath = downloadPath;
+        this.imageCount = imageCount;
+        this.waitTime = waitTime;
+        this.driver = driver;
+        this.counter = counter;
+    }
+    public BaseImageScraper(String downloadPath, int imageCount, int waitTime, WebDriver driver) {
+    	this(downloadPath,imageCount,waitTime,new Counter(),driver);
+    }
+    public BaseImageScraper(String downloadPath, int imageCount, int waitTime, BrowserType browserType) {
+    	this(downloadPath,imageCount,waitTime,new Counter(),browserType);
     }
 
     // Helper method to wait for a specified time
@@ -73,8 +87,23 @@ public abstract class BaseImageScraper implements ImageScraper {
             } else {
                 System.out.println("Error occurred while downloading image: " + e.getMessage()); // General error
             }
-            errorCounter++; // Increment error counter
+            counter.incrementError();; // Increment error counter
             throw new RuntimeException("Error occurred while downloading the image: " + e.getMessage()); // Throw exception with message
         }
     }
+    
+    @Override
+    public void setDownloadPath(String path) {
+        this.downloadPath = path;
+    }
+
+    @Override
+    public void setImageCount(int count) {
+        this.imageCount = count;
+    }
+
+    @Override
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+        }
 }
