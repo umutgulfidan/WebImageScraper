@@ -35,7 +35,7 @@ public class Main {
         
         Counter counter = new Counter();
 
-        
+        // get start id
         System.out.print("Start Id:");
         int id = scanner.nextInt();
         counter.setImageNameIdentifierCount(id);
