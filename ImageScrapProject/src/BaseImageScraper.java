@@ -1,8 +1,12 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,14 +15,17 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 
 public abstract class BaseImageScraper implements ImageScraper {
     protected WebDriver driver; // Selenium WebDriver instance
+    protected int waitDuration =20;
+    protected WebDriverWait wait; // Setup WebDriverWait
     protected String downloadPath; // Download path
     protected int imageCount; // Total images to download
     protected Counter counter;
     protected int waitTime; // Wait time for page loading
-    protected static final String IMAGE_FILENAME_PREFIX = "notumor";
+    protected static final String IMAGE_FILENAME_PREFIX = "meningioma";
     protected static final String IMAGE_EXTENSION = ".jpg";
 
     // Constructor with parameters
@@ -38,6 +45,8 @@ public abstract class BaseImageScraper implements ImageScraper {
             options.addArguments("-start-maximized"); // Open browser in fullscreen
             this.driver = new FirefoxDriver(options);
         }
+        
+        wait = new WebDriverWait(driver, Duration.ofSeconds(waitDuration));
     }
     public BaseImageScraper(String downloadPath, int imageCount, int waitTime,Counter counter, WebDriver driver) {
         this.downloadPath = downloadPath;
@@ -61,6 +70,19 @@ public abstract class BaseImageScraper implements ImageScraper {
             e.printStackTrace();
         }
     }
+    protected WebElement waitUntilCssSelector(String cssSelector) {
+    	WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+    	return element;
+    }
+    protected WebElement waitUntilId(String id) {
+    	WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
+    	return element;
+    }
+    protected WebElement waitUntilXPath(String xpath) {
+    	WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+    	return element;
+    }
+
 
     // Close the WebDriver
     @Override

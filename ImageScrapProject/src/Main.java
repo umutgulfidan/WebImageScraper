@@ -1,4 +1,6 @@
 import java.util.Scanner;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,11 +17,12 @@ public class Main {
 		
 		// Google Image Scraper for Main
 		
+		
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter search term: ");
         String searchTerm = scanner.nextLine();
 
-        String downloadPath = "C:\\Users\\umutg\\OneDrive\\Masaüstü\\Yazılım-Lab-Proje\\NormalBrain"; // Change this to your preferred directory
+        String downloadPath = "C:\\Users\\umutg\\OneDrive\\Masaüstü\\Yazılım-Lab-Proje\\MeningiomaTumor"; // Change this to your preferred directory
 
         System.out.print("Enter number of images to download: ");
         int imageCount = scanner.nextInt();
@@ -31,6 +34,7 @@ public class Main {
         System.out.print("Enter browser type (CHROME / FIREFOX): ");
         String browserInput = scanner.nextLine().toUpperCase();
         BrowserType browserType = BrowserType.valueOf(browserInput);
+        
 
         
         Counter counter = new Counter();
@@ -44,6 +48,7 @@ public class Main {
         ImageScraper scraper = new GoogleImageScraper(downloadPath, imageCount, waitTime,counter, browserType);
         scraper.downloadImages(searchTerm);
         scraper.quit();
+        
 		
 		
 		/*
@@ -80,6 +85,8 @@ public class Main {
 		scraper.downloadImages("https://universe.roboflow.com/think-tank-dt0nl/brain-tumor-bsq3w/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true");
 		driver.close();
 		*/
+		
+		
 		
 	}
 }

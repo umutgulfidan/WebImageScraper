@@ -15,8 +15,7 @@ import java.util.List;
         private String searchBoxSelector = "q"; // Search box selector
         private String imageSelector = ".H8Rx8c g-img img.YQ4gaf"; // Image selector
         private String downloadableImageSelector  = "div.p7sI2 a img.sFlh5c.FyHeAf.iPVvYb"; // Selector for the image to download
-        private int waitDuration = 7; // Wait time in seconds
-
+        private String downloadableImageXpath = "//*[@id=\"Sva75c\"]/div[2]/div[2]/div/div[2]/c-wiz/div/div[3]/div[1]/a/img[1]";
         // Constructor
         public GoogleImageScraper(String downloadPath, int imageCount, int waitTime,Counter counter, BrowserType browserType) {
             super(downloadPath, imageCount, waitTime,counter, browserType);
@@ -67,10 +66,12 @@ import java.util.List;
                 System.out.println("Bulunan resim sayısı: " + images.size());
 
                 for (WebElement webElement : images) {
-                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement); // Resmin görünür olması için scroll yap
-                    webElement.click(); // Resme tıkla
 
                     try {
+                    	webElement = wait.until(ExpectedConditions.elementToBeClickable(webElement)); // Tıklanabilir olana kadar bekle
+                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement); // Resmin görünür olması için scroll yap
+                        webElement.click(); // Resme tıkla
+
                         WebElement downloadableImage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(downloadableImageSelector))); // Resmin görünmesini bekle
                         String imageUrl = downloadableImage.getAttribute("src"); // Resim URL'sini al
 
