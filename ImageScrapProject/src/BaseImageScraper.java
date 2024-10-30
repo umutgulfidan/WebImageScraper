@@ -19,13 +19,13 @@ import java.time.Duration;
 
 public abstract class BaseImageScraper implements ImageScraper {
     protected WebDriver driver; // Selenium WebDriver instance
-    protected int waitDuration =20;
+    protected int waitDuration =9;
     protected WebDriverWait wait; // Setup WebDriverWait
     protected String downloadPath; // Download path
     protected int imageCount; // Total images to download
     protected Counter counter;
     protected int waitTime; // Wait time for page loading
-    protected static final String IMAGE_FILENAME_PREFIX = "meningioma";
+    protected static final String IMAGE_FILENAME_PREFIX = "pituitary";
     protected static final String IMAGE_EXTENSION = ".jpg";
 
     // Constructor with parameters

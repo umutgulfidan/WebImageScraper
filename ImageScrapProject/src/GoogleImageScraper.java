@@ -57,7 +57,7 @@ import java.util.List;
                 imageCount = totalImageCount; // Kullanıcının indirmek istediği resim sayısını tüm resimlere ayarla
             }
             
-            System.out.println("Bulunan resim sayısı: "+totalImageCount);
+            System.out.println("Bulunan resim sayısı: " + totalImageCount);
             System.out.println("İndirilecek toplam resim sayısı: " + imageCount);
 
             // Resimleri indirme döngüsü
@@ -68,25 +68,35 @@ import java.util.List;
                 for (WebElement webElement : images) {
 
                     try {
-                    	webElement = wait.until(ExpectedConditions.elementToBeClickable(webElement)); // Tıklanabilir olana kadar bekle
+                        webElement = wait.until(ExpectedConditions.elementToBeClickable(webElement)); // Tıklanabilir olana kadar bekle
                         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", webElement); // Resmin görünür olması için scroll yap
                         webElement.click(); // Resme tıkla
 
-                        WebElement downloadableImage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(downloadableImageSelector))); // Resmin görünmesini bekle
-                        String imageUrl = downloadableImage.getAttribute("src"); // Resim URL'sini al
-
-                        if (imageUrl != null && !imageUrl.isEmpty()) {
-                            // Resmi indir
-                            try {
+                        // Önce yüksek çözünürlüklü resmi indirmeyi dene
+                        try {
+                            WebElement downloadableImage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(downloadableImageSelector))); // Resmin görünmesini bekle
+                            String imageUrl = downloadableImage.getAttribute("src"); // Resim URL'sini al
+                            if (imageUrl != null && !imageUrl.isEmpty()) {
                                 downloadImage(imageUrl, downloadPath + "\\" + IMAGE_FILENAME_PREFIX + (counter.getImageNameIdentifierCount()) + IMAGE_EXTENSION);
                                 counter.incrementImageNameIdentifier();
                                 counter.incrementDownload();
-                            } catch (RuntimeException e) {
-                                System.out.println("Resim indirme başarısız oldu: " + e.getMessage());
                             }
-                        } else {
-                            counter.incrementError();
-                            System.out.println("Resim URL geçersiz.");
+                        } catch (Exception e) {
+                            System.out.println("Yüksek çözünürlüklü resim bulunamadı, düşük çözünürlüklü resmi indiriliyor...");
+
+                            // Eğer yüksek çözünürlüklü resim bulunamazsa XPath ile düşük çözünürlüklü resmi indir
+                            try {
+                                WebElement lowResImage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(downloadableImageXpath)));
+                                String lowResImageUrl = lowResImage.getAttribute("src");
+                                if (lowResImageUrl != null && !lowResImageUrl.isEmpty()) {
+                                    downloadImage(lowResImageUrl, downloadPath + "\\" + IMAGE_FILENAME_PREFIX + (counter.getImageNameIdentifierCount()) + IMAGE_EXTENSION);
+                                    counter.incrementImageNameIdentifier();
+                                    counter.incrementDownload();
+                                }
+                            } catch (Exception ex) {
+                                counter.incrementError();
+                                System.out.println("Düşük çözünürlüklü resim de indirilemedi: " + ex.getMessage());
+                            }
                         }
                     } catch (Exception e) {
                         counter.incrementError();
@@ -102,7 +112,7 @@ import java.util.List;
                     // Eğer istek sayısı toplam resim sayısına ulaştıysa (başarılı veya başarısız tüm denemeler yapıldıysa)
                     if (counter.getRequestCount() >= totalImageCount) {
                         System.out.println("Tüm resimler denendi ancak istenilen sayıda resim indirilemedi.");
-                        System.out.println("Hedeflenen resim sayısı: "+imageCount);
+                        System.out.println("Hedeflenen resim sayısı: " + imageCount);
                         System.out.println("İndirilen resim sayısı: " + counter.getDownloadCount());
                         System.out.println("Başarısız istek sayısı: " + counter.getErrorCount());
                         return; // Döngüyü kır ve methodu bitir

@@ -22,7 +22,7 @@ public class Main {
         System.out.print("Enter search term: ");
         String searchTerm = scanner.nextLine();
 
-        String downloadPath = "C:\\Users\\umutg\\OneDrive\\Masaüstü\\Yazılım-Lab-Proje\\MeningiomaTumor"; // Change this to your preferred directory
+        String downloadPath = "C:\\Users\\umutg\\OneDrive\\Masaüstü\\Yazılım-Lab-Proje\\PituitaryTumor"; // Change this to your preferred directory
 
         System.out.print("Enter number of images to download: ");
         int imageCount = scanner.nextInt();
@@ -86,6 +86,11 @@ public class Main {
 		driver.close();
 		*/
 		
+		
+		
+        //String folderPath = "C:\\Users\\umutg\\OneDrive\\Masaüstü\\Yazılım-Lab-Proje\\NormalBrain";
+        //ImageDuplicateRemover.removeDuplicateImages(folderPath);
+        
 		
 		
 	}
