@@ -25,7 +25,7 @@ public abstract class BaseImageScraper implements ImageScraper {
     protected int imageCount; // Total images to download
     protected Counter counter;
     protected int waitTime; // Wait time for page loading
-    protected static final String IMAGE_FILENAME_PREFIX = "pituitary";
+    protected static final String IMAGE_FILENAME_PREFIX = "glioma";
     protected static final String IMAGE_EXTENSION = ".jpg";
 
     // Constructor with parameters
@@ -70,6 +70,7 @@ public abstract class BaseImageScraper implements ImageScraper {
             e.printStackTrace();
         }
     }
+    
     protected WebElement waitUntilCssSelector(String cssSelector) {
     	WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
     	return element;

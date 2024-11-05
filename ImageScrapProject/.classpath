@@ -90,5 +90,7 @@
 	<classpathentry kind="lib" path="C:/Users/umutg/Downloads/selenium-java-4.25.0/checker-qual-3.43.0-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/umutg/Downloads/selenium-java-4.25.0/commons-exec-1.4.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/umutg/Downloads/selenium-java-4.25.0/commons-exec-1.4.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/umutg/Downloads/opencv/build/java/opencv-4100.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
