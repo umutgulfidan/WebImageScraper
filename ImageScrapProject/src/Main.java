@@ -16,15 +16,19 @@ public class Main {
 		//scrap();
 		
 		//removeDuplicateImages();
-		
+		/*
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         ImageHelper imageHelper = new ImageHelper();
         String imagePath = "C:\\Users\\umutg\\OneDrive\\Belgeler\\YazLabSonVerilerKopya\\PituitaryTumor";
+        */
+		
         //ImageHelper.renameImagesInFolder(imagePath, "notumor-k");
         
         //toGrayScale(imageHelper, imagePath);
         //augmentImages(imageHelper, imagePath+"\\Grayscale");
-        resizeImages(imageHelper, imagePath,256,256);
+        
+        //resizeImages(imageHelper, imagePath,256,256);
+        
         //ImageHelper.renameImagesInFolder(imagePath, "glioma-k");
     }
 		
