@@ -4,12 +4,6 @@ import java.util.Scanner;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
 public class Main {
 	public static void main(String[] args) {
 		
@@ -23,16 +17,14 @@ public class Main {
 		
 		//removeDuplicateImages();
 		
-		/*
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         ImageHelper imageHelper = new ImageHelper();
-        String imagePath = "C:\\Users\\umutg\\OneDrive\\Belgeler\\YazLabTemizVeriler\\GliomaTumorTemiz";
-        */
+        String imagePath = "C:\\Users\\umutg\\OneDrive\\Belgeler\\YazLabSonVerilerKopya\\PituitaryTumor";
         //ImageHelper.renameImagesInFolder(imagePath, "notumor-k");
         
         //toGrayScale(imageHelper, imagePath);
         //augmentImages(imageHelper, imagePath+"\\Grayscale");
-        
+        resizeImages(imageHelper, imagePath,256,256);
         //ImageHelper.renameImagesInFolder(imagePath, "glioma-k");
     }
 		
@@ -92,10 +84,11 @@ public class Main {
 	        }
 	    }
 	    
-	    public static void resizeImages(ImageHelper imageHelper,String folderPath) {
+	    public static void resizeImages(ImageHelper imageHelper,String folderPath,int width ,int height) {
 	        File folder = new File(folderPath);
 	        File[] listOfFiles = folder.listFiles();
-
+		    String resizedFolderPath = folderPath + "\\Resized";
+		    createDirectory(resizedFolderPath);
 	        if (listOfFiles != null) {
 	            for (File file : listOfFiles) {
 	                if (file.isFile() && isImageFile(file)) {
@@ -105,8 +98,8 @@ public class Main {
 	                        continue;
 	                    }
 	                    
-	                    Mat resizedImage = imageHelper.resizeImage(image, 256, 256);
-	                    String resizedOutputPath = folderPath + File.separator + "resized_" + file.getName();
+	                    Mat resizedImage = imageHelper.resizeImage(image, width, height);
+	                    String resizedOutputPath = resizedFolderPath + File.separator + "resized_" + file.getName();
 	                    imageHelper.saveImage(resizedImage, resizedOutputPath);
 	                    
 	                }
