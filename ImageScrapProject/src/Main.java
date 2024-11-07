@@ -86,6 +86,11 @@ public class Main {
 	                    Mat adjustedImage = imageHelper.adjustContrastAndBrightness(image, 1.2, 0); // Kontrast artırma
 	                    String adjustedOutputPath = folderPath + File.separator + "adjusted_" + file.getName();
 	                    imageHelper.saveImage(adjustedImage, adjustedOutputPath);
+	                    
+	                    Mat resizedImage = imageHelper.resizeImage(image, 256, 256);
+	                    String resizedOutputPath = folderPath + File.separator + "resized_" + file.getName();
+	                    imageHelper.saveImage(resizedImage, resizedOutputPath);
+	                    
 	                }
 	            }
 	        }
