@@ -87,6 +87,24 @@ public class Main {
 	                    String adjustedOutputPath = folderPath + File.separator + "adjusted_" + file.getName();
 	                    imageHelper.saveImage(adjustedImage, adjustedOutputPath);
 	                    
+	                }
+	            }
+	        }
+	    }
+	    
+	    public static void resizeImages(ImageHelper imageHelper,String folderPath) {
+	        File folder = new File(folderPath);
+	        File[] listOfFiles = folder.listFiles();
+
+	        if (listOfFiles != null) {
+	            for (File file : listOfFiles) {
+	                if (file.isFile() && isImageFile(file)) {
+	                    Mat image = Imgcodecs.imread(file.getAbsolutePath());
+	                    if (image.empty()) {
+	                        System.err.println("Error: Could not open or find the image: " + file.getAbsolutePath());
+	                        continue;
+	                    }
+	                    
 	                    Mat resizedImage = imageHelper.resizeImage(image, 256, 256);
 	                    String resizedOutputPath = folderPath + File.separator + "resized_" + file.getName();
 	                    imageHelper.saveImage(resizedImage, resizedOutputPath);
