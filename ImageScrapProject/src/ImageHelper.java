@@ -138,6 +138,7 @@ public class ImageHelper {
     }
 
     // Dosyanın içerik hash'ini hesapla
+    // https://www.w3docs.com/snippets/java/getting-a-files-md5-checksum-in-java.html
     private static String getFileContentHash(File file) throws IOException {
         byte[] fileContent = Files.readAllBytes(file.toPath());
         try {
